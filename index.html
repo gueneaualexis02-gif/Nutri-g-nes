@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Nutri-Gènes by Alex-Coaching</title>
+    <style>
+        :root {
+            --violet: #667eea;
+            --rose: #f093fb;
+            --bleu: #4facfe;
+            --blanc: #ffffff;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--violet) 0%, var(--rose) 50%, var(--bleu) 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* HEADER */
+        .header {
+            background: var(--blanc);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 0;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--violet), var(--rose));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+        
+        .header a {
+            color: var(--violet);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .header a:hover {
+            color: var(--rose);
+        }
+        
+        /* PAGE ACCUEIL */
+        #pageAccueil {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 20px;
+        }
+        
+        .titre-principal {
+            color: var(--blanc);
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .form-container {
+            background: var(--blanc);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .form-control {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--violet);
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .btn-valider {
+            background: linear-gradient(135deg, var(--violet), var(--rose));
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 10px;
+            color: var(--blanc);
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn-valider:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* LOADER */
+        .loader {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid var(--blanc);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 40px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* PAGE RÉSULTATS */
+        #pageResultats {
+            display: none;
+            padding: 40px 20px;
+        }
+        
+        .graphiques-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Bandeau d'avertissement */
+        .alert-probabilites {
+            background: linear-gradient(135deg, #fff3cd, #ffe4a3);
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.2);
+        }
+        
+        .alert-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+        
+        .alert-content {
+            color: #856404;
+            line-height: 1.6;
+        }
+        
+        .alert-content strong {
+            color: #533f03;
+        }
+        
+        .alert-content small {
+            opacity: 0.8;
+            font-style: italic;
+        }
+        
+        .graphique-card {
+            background: var(--blanc);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            height: 100%;
+            transition: all 0.3s;
+        }
+        
+        .graphique-card.active {
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            border: 3px solid var(--violet);
+            transform: scale(1.02);
+        }
+        
+        .graphique-card h3 {
+            color: var(--violet);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        canvas {
+            max-height: 300px;
+        }
+        
+        /* Navigation et descriptions */
+        .apoe-navigation,
+        .gene-navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .btn-nav-small {
+            background: linear-gradient(135deg, var(--violet), var(--rose));
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-nav-small:hover {
+            transform: scale(1.15);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .allele-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            min-width: 200px;
+        }
+        
+        .allele-nom {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--violet);
+        }
+        
+        .allele-pourcentage {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--violet), var(--rose));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .apoe-description,
+        .gene-description {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid var(--violet);
+        }
+        
+        .apoe-description h4,
+        .gene-description h4 {
+            color: var(--violet);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .soustitre {
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        
+        .description-texte {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .points p {
+            color: #555;
+            margin: 8px 0;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        .btn-retour {
+            background: var(--blanc);
+            color: var(--violet);
+            border: 2px solid var(--violet);
+            padding: 10px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+        
+        .btn-retour:hover {
+            background: var(--violet);
+            color: var(--blanc);
+        }
+        
+        @media (max-width: 768px) {
+            .alert-probabilites {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-8">
+                    <h1>Nutri-Gènes by Alex-Coaching</h1>
+                </div>
+                <div class="col-4 text-end">
+                    <a href="#sources">Sources</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- PAGE ACCUEIL -->
+    <div id="pageAccueil">
+        <h2 class="titre-principal">
+            Dis-moi qui tu es<br>et je te dirai quoi manger
+        </h2>
+        
+        <div class="form-container">
+            <form id="paysForm">
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="paysInput" 
+                    placeholder="Entrez votre pays d'origine..."
+                    required
+                >
+                <button type="submit" class="btn-valider" id="btnValider">
+                    Valider
+                </button>
+            </form>
+            
+            <div id="chargement" style="display: none;">
+                <div class="loader"></div>
+                <p class="text-center mt-3" style="color: var(--violet);">
+                    Analyse génétique en cours...
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE RÉSULTATS -->
+    <div id="pageResultats">
+        <div class="container graphiques-container">
+            <button class="btn btn-retour" id="btnRetour">
+                ← Nouvelle analyse
+            </button>
+            
+            <!-- BANDEAU AVERTISSEMENT -->
+            <div class="alert-probabilites">
+                <div class="alert-icon">⚠️</div>
+                <div class="alert-content">
+                    <strong>Ces chiffres sont des probabilités statistiques</strong> basées sur votre origine géographique.
+                    <br>
+                    Pour connaître avec certitude vos variants génétiques, un <strong>test ADN</strong> est nécessaire.
+                    <br>
+                    <small>Cette analyse vous donne une estimation, pas un diagnostic.</small>
+                </div>
+            </div>
+            
+            <div class="row">
+                <!-- Graphique APOE -->
+                <div class="col-md-6 mb-4">
+                    <div class="graphique-card">
+                        <h3>Gène APOE (Métabolisme des lipides)</h3>
+                        <canvas id="chartAPOE"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Graphique DIO2 -->
+                <div class="col-md-6 mb-4">
+                    <div class="graphique-card">
+                        <h3>Gène DIO2 (Thyroïde)</h3>
+                        <canvas id="chartDIO2"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Graphique AMY1A -->
+                <div class="col-md-6 mb-4">
+                    <div class="graphique-card">
+                        <h3>Gène AMY1A (Digestion amidon)</h3>
+                        <canvas id="chartAMY1A"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Graphique FUT2 -->
+                <div class="col-md-6 mb-4">
+                    <div class="graphique-card">
+                        <h3>Gène FUT2 (Microbiote intestinal)</h3>
+                        <canvas id="chartFUT2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Script JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
