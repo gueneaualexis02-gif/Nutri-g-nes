@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Sources - Nutri-Gènes</title>
+    <style>
+        :root {
+            --violet: #667eea;
+            --rose: #f093fb;
+            --bleu: #4facfe;
+            --blanc: #ffffff;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--violet) 0%, var(--rose) 50%, var(--bleu) 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-bottom: 50px;
+        }
+        
+        /* HEADER */
+        .header {
+            background: var(--blanc);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--violet), var(--rose));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+        
+        .header a {
+            color: var(--violet);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .header a:hover {
+            color: var(--rose);
+        }
+        
+        /* CONTENU */
+        .container-sources {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .page-title {
+            color: var(--blanc);
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .gene-section {
+            background: var(--blanc);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .gene-section h2 {
+            color: var(--violet);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .gene-section .gene-emoji {
+            font-size: 2rem;
+        }
+        
+        .gene-section .gene-subtitle {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        
+        .source-count {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--violet), var(--rose));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .sources-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .source-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid var(--violet);
+            transition: all 0.3s;
+        }
+        
+        .source-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .source-number {
+            display: inline-block;
+            background: var(--violet);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .source-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .source-link:hover {
+            color: var(--violet);
+        }
+        
+        .btn-retour {
+            background: var(--blanc);
+            color: var(--violet);
+            border: 2px solid var(--violet);
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 30px;
+            transition: all 0.3s;
+        }
+        
+        .btn-retour:hover {
+            background: var(--violet);
+            color: var(--blanc);
+            transform: translateY(-2px);
+        }
+        
+        .intro-text {
+            background: var(--blanc);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .intro-text p {
+            margin: 0;
+            color: #666;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-8">
+                    <h1>Nutri-Gènes by Alex-Coaching</h1>
+                </div>
+                <div class="col-4 text-end">
+                    <a href="index.html">Accueil</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENU -->
+    <div class="container-sources">
+        <a href="index.html" class="btn-retour">← Retour à l'analyse</a>
+        
+        <h1 class="page-title">📚 Sources Scientifiques</h1>
+        
+        <div class="intro-text">
+            <p>
+                Les probabilités génétiques présentées dans cette application sont basées sur des études scientifiques 
+                et des données de génétique des populations. Voici les références utilisées pour chaque gène analysé.
+            </p>
+        </div>
+
+        <!-- SECTION APOE -->
+        <div class="gene-section">
+            <h2>
+                <span class="gene-emoji">🧠</span>
+                Gène APOE
+                <span class="source-count">52 sources</span>
+            </h2>
+            <p class="gene-subtitle">Métabolisme des lipides et fonction cognitive</p>
+            
+            <ul class="sources-list">
+                <li class="source-item">
+                    <span class="source-number">1</span>
+                    <a href="https://medlineplus.gov/genetics/gene/apoe/#conditions" class="source-link">APOE gene, MedlinePlus</a>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">2</span>
+                    <a href="https://www.ncbi.nlm.nih.gov/gene/348" class="source-link">APOE apolipoprotein E, National Library of Medecine</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- SECTION DIO2 -->
+        <div class="gene-section">
+            <h2>
+                <span class="gene-emoji">🔥</span>
+                Gène DIO2
+                <span class="source-count">1 source</span>
+            </h2>
+            <p class="gene-subtitle">Conversion des hormones thyroïdiennes</p>
+            
+            <ul class="sources-list">
+                <li class="source-item">
+                    <span class="source-number">1</span>
+                    <a href="https://maayanlab.cloud/Harmonizome/gene/DIO2" class="source-link">DIO2, Harmonizome 3.0</a>
+                </li>
+            </ul>
+
+            <ul class="sources-list">
+                <li class="source-item">
+                    <span class="source-number">1</span>
+                    <a href="https://www.ncbi.nlm.nih.gov/gene/1734" class="source-link">DIO2 iodothyronine deiodinase 2, National Library of Medecine</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- SECTION AMY1A -->
+        <div class="gene-section">
+            <h2>
+                <span class="gene-emoji">🍞</span>
+                Gène AMY1A
+                <span class="source-count">2 sources</span>
+            </h2>
+            <p class="gene-subtitle">Digestion de l'amidon</p>
+            
+            <ul class="sources-list">
+                <li class="source-item">
+                    <span class="source-number">1</span>
+                    <a href="https://www.caducee.net/actualite-medicale/5951/oui-a-l-amidon-tant-que-les-genes-suivent.html" class="source-link">Oui à l'amidon... tant que les gènes suivent, caducee.net</a>
+                </li>
+                <li class="source-item">
+                    <span class="source-number">2</span>
+                    <a href="https://www.ncbi.nlm.nih.gov/gene/276" class="source-link">AMY1A amylase alpha 1A, National Library of Medecine</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- SECTION FUT2 -->
+        <div class="gene-section">
+            <h2>
+                <span class="gene-emoji">🦠</span>
+                Gène FUT2
+                <span class="source-count">1 source</span>
+            </h2>
+            <p class="gene-subtitle">Microbiote intestinal</p>
+            
+            <ul class="sources-list">
+                <li class="source-item">
+                    <span class="source-number">1</span>
+                    <a href="https://nutrixeal-info.fr/index/fut2/" class="source-link">FUT2, nutrixeal-info</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
